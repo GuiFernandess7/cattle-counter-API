@@ -5,11 +5,11 @@ import os
 class DBConnectionHandler:
 
     def __init__(self) -> None:
-        db_user = os.getenv('DB_USER', 'root')
-        db_password = os.getenv('DB_PASSWORD', 'myPassword')
+        db_user = os.getenv('POSTGRES_USER', 'root')
+        db_password = os.getenv('POSTGRES_PASSWORD', 'myPassword')
+        db_name = os.getenv('POSTGRES_DB', 'cattleCounter')
         db_host = os.getenv('DB_HOST', 'localhost')
         db_port = os.getenv('DB_PORT', '5432')
-        db_name = os.getenv('DB_NAME', 'cattleCounter')
 
         self.__connection_string = "{}://{}:{}@{}:{}/{}".format(
             'postgresql+psycopg2',
