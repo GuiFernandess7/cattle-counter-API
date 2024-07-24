@@ -7,12 +7,12 @@ class DBConnectionHandler:
     def __init__(self) -> None:
         db_user = os.getenv('DB_USER', 'root')
         db_password = os.getenv('DB_PASSWORD', 'myPassword')
-        db_host = os.getenv('DB_HOST', '172.17.0.2')
-        db_port = os.getenv('DB_PORT', '3306')
+        db_host = os.getenv('DB_HOST', 'localhost')
+        db_port = os.getenv('DB_PORT', '5432')
         db_name = os.getenv('DB_NAME', 'cattleCounter')
 
         self.__connection_string = "{}://{}:{}@{}:{}/{}".format(
-            'mysql+pymysql',
+            'postgresql+psycopg2',
             db_user,
             db_password,
             db_host,
