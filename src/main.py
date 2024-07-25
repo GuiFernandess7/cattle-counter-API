@@ -1,7 +1,7 @@
 from fastapi import FastAPI, File, UploadFile, Body
 from fastapi.responses import JSONResponse
 from src.schemas import ImageUploadResponse
-from src.celery.worker import create_task
+from src.celery_worker import create_task
 
 app = FastAPI()
 
