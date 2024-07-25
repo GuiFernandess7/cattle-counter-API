@@ -1,5 +1,12 @@
 from sqlalchemy.orm import declarative_base
+#from google.cloud import storage
 import os
 
 Base = declarative_base()
-IMAGE_BASE_PATH = os.environ.get('IMAGE_BASE_PATH')
+
+# GCP
+""" BUCKET_NAME = os.environ.get('BUCKET_NAME')
+
+client = storage.Client()
+bucket = client.get_bucket(BUCKET_NAME)
+ """
