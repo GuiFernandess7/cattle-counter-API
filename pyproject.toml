@@ -14,8 +14,7 @@ uvicorn = "^0.30.3"
 psycopg2-binary = "^2.9.9"
 google-cloud = "^0.34.0"
 google-cloud-storage = "^2.18.0"
-celery = "^5.4.0"
-
+celery = "4.4.7"
 
 [build-system]
 requires = ["poetry-core"]
