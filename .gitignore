@@ -2,3 +2,4 @@
 __pycache__
 src/media
 .pytest_cache
+.creds
