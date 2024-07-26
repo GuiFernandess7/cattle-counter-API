@@ -8,6 +8,7 @@ class Images(Base):
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     image_path = Column(String, nullable=False)
+    count = Column(Integer, nullable=True)
 
     def __repr__(self):
         return f"Image[id={self.id}, img_path={self.image_path}]"
