@@ -6,5 +6,5 @@
 
 ### Architeture
 
-![API](https://github.com/user-attachments/assets/5aa6b83b-74a4-41aa-9f3e-daceaf33611c)
+<img src="https://github.com/user-attachments/assets/5aa6b83b-74a4-41aa-9f3e-daceaf33611c" alt="API" width="600"/>
 
