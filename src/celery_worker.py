@@ -3,8 +3,6 @@ import time
 from celery import Celery
 from dotenv import load_dotenv
 
-from src.services.upload_image import ImageUploader
-
 load_dotenv(".env")
 
 app = Celery(__name__)
@@ -18,5 +16,6 @@ def create_task(b, c):
 
 @app.task(name="upload_image")
 def upload_image_task(filename, file_content):
+    from services.upload_image import ImageUploader
     ImageUploader.write_file(filename, file_content)
-    return {"message": "File written successfully"}
+    return "File uploaded successfully"
