@@ -1,7 +1,7 @@
 from fastapi import FastAPI, File, UploadFile, Body
 from fastapi.responses import JSONResponse
 from src.schemas import ImageUploadResponse
-from src.celery_worker import create_task, upload_image_task
+from src.celery_worker import upload_image_task
 from celery.result import AsyncResult
 
 app = FastAPI()
@@ -16,7 +16,7 @@ async def upload_image(image: UploadFile = File(...)):
     task = upload_image_task.delay(image.filename, file_content)
     return ImageUploadResponse(message="Process started", filename=image.filename, task_id=task.id)
 
-@app.get("/result/image/{task_id}")
+@app.get("/upload/image/{task_id}")
 async def get_result(task_id: str):
     task_result = AsyncResult(task_id)
 
