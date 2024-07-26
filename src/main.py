@@ -18,7 +18,7 @@ async def add_nums(data=Body(...)):
 async def upload_image(image: UploadFile = File(...)):
     file_content = await image.read()
     task = upload_image_task.delay(image.filename, file_content)
-    return {"message": "Image file received successfully", "filename": image.filename}
+    return ImageUploadResponse(message="Process started", filename=image.filename, task_id=task.id)
 
 @app.get("/result/image/{task_id}")
 async def get_result(task_id: str):
