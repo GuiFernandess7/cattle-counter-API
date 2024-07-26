@@ -6,13 +6,9 @@ from celery.result import AsyncResult
 
 app = FastAPI()
 
-@app.post("/health-check")
-async def add_nums(data=Body(...)):
-    """Test celery"""
-    x = data["x"]
-    y = data["y"]
-    task = create_task.delay(x, y)
-    return JSONResponse({"Result": task.get()})
+@app.get("/health-check")
+async def check():
+    return JSONResponse({"Status": "OK"})
 
 @app.post("/upload/image/", response_model=ImageUploadResponse)
 async def upload_image(image: UploadFile = File(...)):
