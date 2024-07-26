@@ -3,6 +3,8 @@
 import uuid
 import os
 
+from errors.write_file_error import WriteImageError
+
 class ImageUploader:
 
     @classmethod
@@ -16,8 +18,12 @@ class ImageUploader:
         """Temp method"""
         unique_filename = cls.__get_unique_filename_path(filename)
         image_path = os.path.join('media', unique_filename)
-        with open(image_path, 'wb') as f:
-            f.write(file_content)
+
+        try:
+            with open(image_path, 'wb') as f:
+                f.write(file_content)
+        except Exception as e:
+            raise WriteImageError(f"Error writing image to folder: {e}")
 
     """ @classmethod
     def send_to_bucket(cls, file_path, unique_filename):
