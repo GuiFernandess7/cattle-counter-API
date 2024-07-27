@@ -24,17 +24,14 @@ Supports image upload and processing, returning the count of detected cattle alo
 ### Technical Details
 
 * Image Processing with OpenCV:
-Color Conversion: Converts images to HSV (Hue, Saturation, Value) color space for more effective color-based segmentation.
-Mask Creation: Applies cv2.inRange() to generate masks for different color ranges. For example, a mask for white color helps in detecting cattle that are primarily white.
-Contour Detection: Detects contours in the masks to identify individual cattle. The contours are then used to calculate the number of detected cattle.
+* Color Conversion: Converts images to HSV (Hue, Saturation, Value) color space for more effective color-based segmentation.
+* Mask Creation: Applies cv2.inRange() to generate masks for different color ranges. For example, a mask for white color helps in detecting cattle that are primarily white.
+* Contour Detection: Detects contours in the masks to identify individual cattle. The contours are then used to calculate the number of detected cattle.
+
+### Architeture Diagram
+
+<img src="https://github.com/user-attachments/assets/5aa6b83b-74a4-41aa-9f3e-daceaf33611c" alt="API" width="600"/>
 
 ### Notice of Limitations
 
 * Accuracy: The counting accuracy may not be sufficient for production environments due to the complexity and variability of cattle images. The current solution may not perform well under all lighting conditions, varying cattle colors, or images with significant overlap.
-
-<img src="https://github.com/user-attachments/assets/db576e4b-53d8-4aa8-85f9-335dd524f2cf" alt="cattle01" width="600"/>
-
-### Architeture
-
-<img src="https://github.com/user-attachments/assets/5aa6b83b-74a4-41aa-9f3e-daceaf33611c" alt="API" width="600"/>
-
