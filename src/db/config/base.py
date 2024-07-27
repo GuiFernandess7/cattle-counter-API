@@ -7,5 +7,5 @@ Base = declarative_base()
 # GCP
 BUCKET_NAME = os.environ.get('BUCKET_NAME')
 
-client = storage.Client()
-bucket = client.get_bucket(BUCKET_NAME)
+#client = storage.Client()
+#bucket = client.get_bucket(BUCKET_NAME)

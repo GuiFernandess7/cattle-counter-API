@@ -1,5 +1,5 @@
-from src.db.config.connection import DBConnectionHandler
-from src.db.entities.images import Images
+from db.config.connection import DBConnectionHandler
+from db.entities.images import Images
 
 class ImageRepository:
 
