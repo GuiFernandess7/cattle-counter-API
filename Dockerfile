@@ -2,7 +2,8 @@ FROM python:3.9-slim
 
 RUN apt-get update && \
     apt-get install -y curl && \
-    apt-get install -y python3-pip
+    apt-get install -y python3-pip && \
+    apt-get install ffmpeg libsm6 libxext6 -y
 
 RUN curl -sSL https://install.python-poetry.org | python3 -
 
