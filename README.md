@@ -6,7 +6,10 @@ The Cattle Counter API is a tool designed to automate the counting of cattle in 
 
 The Cattle Counter API is currently in development and, at this stage, uses only basic image masking techniques with the OpenCV library for cattle detection and counting. The system is in an early phase, and the techniques employed are limited to color-based segmentation and contour detection.
 
-<img width="695" alt="mask" src="https://github.com/user-attachments/assets/38070117-8823-4c10-898c-5c39093d92b9" width="900">
+<p float="left">
+  <img src="https://github.com/user-attachments/assets/b493aa98-a36c-4431-a079-e32d736f35a9" width="49%" />
+  <img src="https://github.com/user-attachments/assets/ffa54d8b-e962-4402-ba86-1b18a1e0391a" width="49%" />
+</p>
 
 ### Key Features
 
@@ -33,7 +36,3 @@ Supports image upload and processing, returning the count of detected cattle alo
 ### Architeture Diagram
 
 <img src="https://github.com/user-attachments/assets/5aa6b83b-74a4-41aa-9f3e-daceaf33611c" alt="API" width="600"/>
-
-### Notice of Limitations
-
-* Accuracy: The counting accuracy may not be sufficient for production environments due to the complexity and variability of cattle images. The current solution may not perform well under all lighting conditions, varying cattle colors, or images with significant overlap.
