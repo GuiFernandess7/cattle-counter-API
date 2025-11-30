@@ -1,12 +1,11 @@
-#from google.cloud import storage
-#from src.db.config.base import BUCKET_NAME
 import uuid
 import os
-import cv2 as cv
-
-from errors.write_file_error import WriteImageError
+from inference_sdk import InferenceHTTPClient
+from src.errors.write_file_error import WriteImageError
 
 class ImageUploader:
+    # Tamanho máximo padrão: 10MB (10 * 1024 * 1024 bytes)
+    DEFAULT_MAX_FILE_SIZE = 10 * 1024 * 1024
 
     @classmethod
     def __get_unique_filename_path(cls, filename):
@@ -14,11 +13,26 @@ class ImageUploader:
         return unique_filename
 
     @classmethod
-    def __write_file(cls, filename, file_content):
+    def __write_file(cls, filename, file_content, max_size=None):
+        # Define o tamanho máximo padrão se não for especificado
+        if max_size is None:
+            max_size = cls.DEFAULT_MAX_FILE_SIZE
+        
+        # Valida o tamanho do arquivo antes de escrever
+        file_size = len(file_content)
+        if file_size > max_size:
+            max_size_mb = max_size / (1024 * 1024)
+            file_size_mb = file_size / (1024 * 1024)
+            raise WriteImageError(
+                f"File size ({file_size_mb:.2f} MB) exceeds maximum allowed size ({max_size_mb:.2f} MB)"
+            )
+        
         unique_filename = cls.__get_unique_filename_path(filename)
         image_path = os.path.join('media', unique_filename)
 
         try:
+            os.makedirs(os.path.dirname(image_path), exist_ok=True)
+            
             with open(image_path, 'wb') as f:
                 f.write(file_content)
         except Exception as e:
@@ -27,27 +41,15 @@ class ImageUploader:
             return image_path
 
     @classmethod
-    def __process(cls, path, min_contour_area):
-        image = cv.imread(path)
-        hsv = cv.cvtColor(image, cv.COLOR_BGR2HSV)
-        white_mask = cv.inRange(hsv, (0,0, 180), (172,111,255))
-        contours, _ = cv.findContours(white_mask, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
-        filtered_contours = [cnt for cnt in contours if cv.contourArea(cnt) > min_contour_area]
-        cattle_count = len(filtered_contours)
-        return cattle_count
-
-    @classmethod
-    def get_results_from_image(cls, filename, file_content, min_contour_area):
-        new_image_path = cls.__write_file(filename, file_content)
-        results = cls.__process(new_image_path, min_contour_area)
-        return results
-
-    """ @classmethod
-    def send_to_bucket(cls, file_path, unique_filename):
-        ""Not implemented""
-        client = storage.Client()
-        bucket = client.bucket(BUCKET_NAME)
-        blob = bucket.blob(unique_filename)
-
-        blob.upload_from_filename(file_path)
-        print(f"Uploaded {file_path} to {cls.GCS_BUCKET_NAME} as {unique_filename}") """
+    def get_results_from_image(cls, filename, file_content, min_contour_area, max_file_size=None):
+        new_image_path = cls.__write_file(filename, file_content, max_size=max_file_size)
+        client = InferenceHTTPClient(
+            api_url=os.getenv("ML_SERVER"), api_key=os.getenv("API_KEY")
+        )
+        result = client.run_workflow(
+            workspace_name=os.getenv("MY_WORKSPACE"),
+            workflow_id=os.getenv("WORKFLOW_ID"),
+            images={"image": new_image_path},
+            use_cache=True,
+        )
+        return len(result[0]["predictions"]["predictions"])
